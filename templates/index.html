@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ders Programı Yönetim Sistemi</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Ders Programı Yönetim Sistemi</h1>
+            <div class="header-controls">
+                <button id="darkModeToggle" class="btn btn-secondary">🌙 Karanlık Mod</button>
+            </div>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="teachers">👨‍🏫 Öğretmenler</button>
+            <button class="tab-btn" data-tab="students">👨‍🎓 Öğrenciler</button>
+            <button class="tab-btn" data-tab="schedule">📅 Ders Programı</button>
+            <button class="tab-btn" data-tab="saved">💾 Kayıtlı Programlar</button>
+        </nav>
+
+        <main>
+            <!-- Öğretmenler Sekmesi -->
+            <div id="teachers-tab" class="tab-content active">
+                <div class="section-header">
+                    <h2>Öğretmen Listesi</h2>
+                    <button id="addTeacherBtn" class="btn btn-primary">+ Yeni Öğretmen Ekle</button>
+                </div>
+                <div id="teachersList" class="data-list"></div>
+            </div>
+
+            <!-- Öğrenciler Sekmesi -->
+            <div id="students-tab" class="tab-content">
+                <div class="section-header">
+                    <h2>Öğrenci Listesi</h2>
+                    <button id="addStudentBtn" class="btn btn-primary">+ Yeni Öğrenci Ekle</button>
+                </div>
+                <div id="studentsList" class="data-list"></div>
+            </div>
+
+            <!-- Ders Programı Sekmesi -->
+            <div id="schedule-tab" class="tab-content">
+                <div class="section-header">
+                    <h2>Ders Programı Oluştur</h2>
+                    <div class="schedule-controls">
+                        <button id="generateScheduleBtn" class="btn btn-success">🎲 Program Oluştur</button>
+                        <button id="saveScheduleBtn" class="btn btn-primary">💾 Programı Kaydet</button>
+                        <div class="export-buttons">
+                            <button id="exportExcelBtn" class="btn btn-secondary">📊 Excel</button>
+                            <button id="exportPdfBtn" class="btn btn-secondary">📄 PDF</button>
+                            <button id="exportHtmlBtn" class="btn btn-secondary">🌐 HTML</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="scheduleDisplay" class="schedule-container">
+                    <p class="placeholder-text">Ders programı oluşturmak için "Program Oluştur" butonuna tıklayın.</p>
+                </div>
+            </div>
+
+            <!-- Kayıtlı Programlar Sekmesi -->
+            <div id="saved-tab" class="tab-content">
+                <div class="section-header">
+                    <h2>Kayıtlı Programlar</h2>
+                    <button id="refreshSavedBtn" class="btn btn-secondary">🔄 Yenile</button>
+                </div>
+                <div id="savedSchedulesList" class="data-list"></div>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2024 Ders Programı Yönetim Sistemi | Modüler Flask Uygulaması</p>
+        </footer>
+    </div>
+
+    <!-- Modal Alanları (Öğretmen/Öğrenci ekleme formları için) -->
+    <div id="modalOverlay" class="modal-overlay"></div>
+    <div id="modalContainer" class="modal-container"></div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
