@@ -362,16 +362,47 @@ async function generateSchedule() {
 
 function displaySchedule(data) {
     const scheduleDisplay = document.getElementById('scheduleDisplay');
-    // TODO: Implement actual schedule display
-    scheduleDisplay.innerHTML = `
-        <div style="padding: 20px; text-align: center;">
-            <p><strong>Durum:</strong> ${data.status}</p>
-            <p>${data.message}</p>
-            <p style="color: #999; margin-top: 20px;">
-                ℹ️ Tam ders programı görüntüleme özelliği orijinal koddan eklenecek
-            </p>
-        </div>
-    `;
+
+    if (!data.success) {
+        scheduleDisplay.innerHTML = `<p style="color: red; text-align: center;">${data.message}</p>`;
+        return;
+    }
+
+    const { weeks, days, time_slots, schedule, stats } = data;
+    let html = '<div class="schedule-wrapper">';
+
+    // Stats
+    html += `<div class="schedule-stats">
+        <div class="stat-box"><span>${stats.teachers_count}</span> Öğretmen</div>
+        <div class="stat-box"><span>${stats.students_count}</span> Öğrenci</div>
+        <div class="stat-box"><span>${stats.total_lessons}</span> Toplam Ders</div>
+    </div>`;
+
+    // Each week
+    weeks.forEach(week => {
+        html += `<div class="week-section"><h3>${week}</h3><table class="schedule-table"><thead><tr><th>Saat</th>`;
+        days.forEach(day => html += `<th>${day}</th>`);
+        html += '</tr></thead><tbody>';
+
+        time_slots.forEach(time => {
+            html += `<tr><td class="time-cell">${time}</td>`;
+            days.forEach(day => {
+                const key = `${week}|${day}|${time}`;
+                html += '<td>';
+                if (schedule[key]) {
+                    schedule[key].forEach(lesson => {
+                        html += `<div class="lesson-card"><strong>${lesson.teacher_name}</strong><br>${lesson.lesson}<br><em>${lesson.student_name}</em></div>`;
+                    });
+                }
+                html += '</td>';
+            });
+            html += '</tr>';
+        });
+        html += '</tbody></table></div>';
+    });
+
+    html += '</div>';
+    scheduleDisplay.innerHTML = html;
 }
 
 async function saveSchedule() {
